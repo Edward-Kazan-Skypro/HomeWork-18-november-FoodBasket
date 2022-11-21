@@ -1,10 +1,11 @@
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 
 public class Recipes {
 
-    //private static HashMap<String, HashSet<Product>> recipesBook = new HashMap<>();
-    private static HashSet<Product> productsSetForRecipe = new HashSet<>();
-    private double priceAllProducts;
+    private HashMap<Product, Double> costProductsInRecipe = new HashMap<>();
+    private HashSet<Product> productsSetForRecipe = new HashSet<>();
     private String nameRecipes;
 
     private static HashSet<Recipes> recipesSet = new HashSet<>();
@@ -13,6 +14,11 @@ public class Recipes {
         this.nameRecipes = nameRecipes;
         getProductsSetForRecipe().addAll(productsSetForRecipe);
     }
+
+    public Recipes(String nameRecipes){
+        this.nameRecipes = nameRecipes;
+    }
+
 
     public static void addRecipes(Recipes recipe) {
         if (recipesSet.isEmpty()) {
@@ -27,26 +33,35 @@ public class Recipes {
                 getRecipesSet().add(recipe);
                 System.out.println("Рецепт " + recipe.getNameRecipes() + " добавлен в список рецептов.");
                 return;
-
             } else {
                 throw new RuntimeException("Рецепт с таким названием уже есть в списке рецептов.");
             }
         }
     }
 
-    public static void addProductsToRecipes(Product product) {
+    public void addProductsToRecipes(Product product) {
         productsSetForRecipe.add(product);
+        double cost = product.getPrice() * product.getAmount();
+        if (cost < 1) cost = 1;
+        costProductsInRecipe.put(product, cost);
     }
 
-    public static double getPriceAllProductsInRecipe(Recipes recipe) {
+    public void viewDetailCostProducts (){
+        System.out.println("Рецепт " + getNameRecipes() + " , стоимость входящих в него продуктов:");
+        for (Map.Entry<Product, Double> p : costProductsInRecipe.entrySet()) {
+            System.out.println("Продукт - " + p.getKey().getName() + ", стоимость = " + p.getValue() + " руб.");
+        }
+    }
+
+    public double getCostAllProductsInRecipe() {
         double price = 0;
         for (Product r : productsSetForRecipe) {
-            price += r.getPrice();
+            price += r.getPrice() * r.getAmount();
         }
         return price;
     }
 
-    public static HashSet<Product> getProductsSetForRecipe() {
+    public HashSet<Product> getProductsSetForRecipe() {
         return productsSetForRecipe;
     }
 
@@ -74,14 +89,15 @@ public class Recipes {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Recipes)) return false;
-        Recipes recipes = (Recipes) o;
-        return Double.compare(recipes.priceAllProducts, priceAllProducts) == 0 && getNameRecipes().equals(recipes.getNameRecipes());
+        Recipes r = (Recipes) o;
+        HashSet<Product> set = new HashSet<>();
+       // set = (Recipes) o.
+        return getNameRecipes().equals(r.getNameRecipes()) && productsSetForRecipe.equals(getProductsSetForRecipe());
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         return prime + prime * getNameRecipes().length() + prime * getProductsSetForRecipe().size();
-        //return Objects.hash(priceAllProducts, getNameRecipes());
     }
 }

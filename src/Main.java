@@ -5,11 +5,28 @@ public class Main {
 
         //Создадим продукты
         Product product_1 = new Product("Бананы", 3.67, 2);
-        Product product_2 = new Product("Хлеб", 0.2, 0.5);
-        Product product_3 = new Product("Молоко", 0.8, 1);
+        //Product product_2 = new Product("Хлеб", 0.2, 0.5);
+        //Product product_3 = new Product("Молоко", 0.8, 1);
         Product product_4 = new Product("Апельсины", 2.13, 1.2);
 
-        //Добавим product_1 в список продуктов
+        //Раздел - Рецепты
+        Recipes recipe_1 = new Recipes("Салат из бананов и апельсинов");
+        //Добавим ранее созданные продукты в рецепт
+        recipe_1.addProductsToRecipes(product_1);
+        recipe_1.addProductsToRecipes(product_4);
+        //Посчитаем стоимость продуктов в рецепте
+        System.out.println("Стоимость всех продуктов в рецепте " + recipe_1.getNameRecipes() + " = "+ recipe_1.getCostAllProductsInRecipe() +" руб.");
+        recipe_1.viewDetailCostProducts();
+
+        //Создаем рецепт Салата из бананов и апельсинов
+        //В качестве аргументов - название салата и список продуктов
+        //Recipes recipe_1 = new Recipes("Салат из бананов и апельсинов", Recipes.getProductsSetForRecipe());
+
+        //Посчитаем стоимость продуктов в рецепте
+        //System.out.println(Recipes.getCostAllProductsInRecipe(recipe_1));
+
+
+        /*//Добавим product_1 в список продуктов
         Product.addProductToSet(product_1);
         //Отметим product_1 для покупки (при создании продукта эта отметка false)
         Product.markProductForBuy(product_1);
@@ -45,15 +62,6 @@ public class Main {
         System.out.println("------------------------------------------------------------------");
         //Создадим еще один рецепт - с другим названием, как у recipe_1
         Recipes recipe_3 = new Recipes("Салат из бананов и апельсинов", Recipes.getProductsSetForRecipe());
-        Recipes.addRecipes(recipe_3);
-
-
-
-
-
-
-
-
-
+        Recipes.addRecipes(recipe_3);*/
     }
 }
